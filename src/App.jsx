@@ -1,12 +1,12 @@
 import "./App.css";
 import ToDoList from "../src/components/ToDoList";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, Snackbar } from "@mui/material";
 import { purple } from "@mui/material/colors";
 import { TodosContext } from "./contexts/todosContext";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-
+import { ToastProvider } from "./contexts/ToastContext";
 const initialTodos = [
   {
     id: uuidv4(),
@@ -30,6 +30,7 @@ const initialTodos = [
 
 function App() {
   const [todos, setTodos] = useState(initialTodos);
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -45,12 +46,14 @@ function App() {
   });
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <div style={{ direction: "rtl" }}>
-        <TodosContext.Provider value={{ todos, setTodos }}>
-          <ToDoList />
-        </TodosContext.Provider>
-      </div>
+      <ToastProvider>
+        <CssBaseline />
+        <div style={{ direction: "rtl" }}>
+          <TodosContext.Provider value={{ todos, setTodos }}>
+            <ToDoList />
+          </TodosContext.Provider>
+        </div>
+      </ToastProvider>
     </ThemeProvider>
   );
 }
